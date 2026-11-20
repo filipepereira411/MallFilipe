@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MallFilipe, da FLDA — um centro comercial virtual com lojas, ofertas, eventos e compras online, aberto 24 horas por dia." />
+  <title>MallFilipe · FLDA | Centro Comercial Virtual</title>
+  <style>
+    :root {
+      --ink: #101d2e;
+      --ink-2: #1b2d42;
+      --muted: #657186;
+      --paper: #f7f4ee;
+      --cream: #fffdf8;
+      --gold: #c9a15d;
+      --gold-light: #ead9b8;
+      --forest: #174d42;
+      --line: #e5dfd3;
+      --display: Georgia, "Times New Roman", serif;
+      --sans: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    .container { width: min(100% - 2rem, 1180px); margin: 0 auto; }
+    .display { font-family: var(--display); }
+    .eyebrow { display: inline-flex; align-items: center; gap: .55rem; font-size: .68rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--forest); }
+    .eyebrow::before { content: ""; width: 1.7rem; height: 1px; background: var(--gold); }
+    .eyebrow.light { color: var(--gold-light); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; border: 0; border-radius: 999px; padding: .8rem 1.35rem; font-size: .85rem; font-weight: 700; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-gold { background: var(--gold); color: var(--ink); }
+    .btn-dark { background: var(--ink); color: white; }
+    .btn-outline { background: transparent; color: inherit; border: 1px solid rgba(255,255,255,.35); }
+    .btn-light { background: white; color: var(--ink); }
+    .topbar { background: var(--ink); color: rgba(255,255,255,.75); font-size: 11px; }
+    .topbar .container { height: 36px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); margin-right: .5rem; vertical-align: middle; }
+    header.main { position: sticky; top: 0; z-index: 20; border-bottom: 1px solid var(--line); background: rgba(247,244,238,.94); backdrop-filter: blur(14px); }
+    header.main .container { height: 74px; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+    .brand { display: flex; align-items: center; gap: .75rem; }
+    .brand-mark { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: var(--ink); color: var(--gold-light); font-family: var(--display); font-weight: 700; font-size: 18px; }
+    .brand-name { font-family: var(--display); font-size: 22px; font-weight: 600; line-height: 1; }
+    .brand-sub { display: block; margin-top: 5px; font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); font-weight: 800; }
+    nav { display: flex; align-items: center; gap: .35rem; }
+    nav a { padding: .6rem .85rem; border-radius: 999px; font-size: 13px; font-weight: 700; color: var(--ink-2); }
+    nav a:hover { background: white; }
+    .cart-link { position: relative; width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: white; font-size: 18px; }
+    .cart-count { position: absolute; right: -4px; top: -4px; min-width: 19px; height: 19px; padding: 0 4px; border-radius: 50%; display: grid; place-items: center; background: var(--gold); color: var(--ink); font-size: 10px; font-weight: 800; }
+    .hero { position: relative; min-height: 620px; overflow: hidden; background: var(--ink); color: white; }
+    .hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(9,19,33,.97), rgba(9,19,33,.82) 48%, rgba(9,19,33,.22)), linear-gradient(0deg, rgba(9,19,33,.5), transparent 50%); }
+    .hero .container { position: relative; z-index: 2; min-height: 620px; display: flex; flex-direction: column; justify-content: center; padding: 4rem 0; }
+    .hero-content { max-width: 650px; }
+    .pill { display: inline-flex; align-items: center; gap: .5rem; border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.1); padding: .6rem 1rem; border-radius: 999px; font-size: 10px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+    h1 { margin: 1.6rem 0 0; font-family: var(--display); font-size: clamp(3rem, 7vw, 5.5rem); line-height: 1.02; letter-spacing: -.03em; }
+    h1 em { font-style: normal; color: var(--gold-light); }
+    .hero p { max-width: 540px; margin: 1.4rem 0 0; color: rgba(255,255,255,.75); line-height: 1.8; font-size: 15px; }
+    .search { margin-top: 2rem; width: min(100%, 550px); display: flex; gap: .5rem; padding: .45rem; border-radius: 18px; background: rgba(255,255,255,.92); box-shadow: 0 20px 60px rgba(0,0,0,.2); }
+    .search input { flex: 1; min-width: 0; border: 0; background: transparent; padding: 0 .8rem; color: var(--ink); outline: none; font-size: 14px; }
+    .hero-actions { margin-top: 1.4rem; display: flex; flex-wrap: wrap; gap: .7rem; }
+    .hero-card { position: absolute; z-index: 3; right: 2rem; bottom: 2rem; width: 235px; padding: 1.2rem; border-radius: 18px; border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.1); backdrop-filter: blur(16px); }
+    .hero-card small { color: var(--gold-light); font-size: 9px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; }
+    .hero-card strong { display: block; margin-top: .6rem; font-family: var(--display); font-size: 22px; }
+    .hero-card p { margin: .5rem 0 0; font-size: 11px; }
+    .section { padding: 5rem 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 1.5rem; margin-bottom: 2.2rem; }
+    .section-head h2 { margin: .8rem 0 0; font-family: var(--display); font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.1; }
+    .section-head p { max-width: 540px; margin: .8rem 0 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .section-head .more { color: var(--forest); font-size: 13px; font-weight: 800; white-space: nowrap; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; padding: 2rem 0; background: var(--forest); color: white; }
+    .stats div { border-left: 1px solid rgba(255,255,255,.2); padding-left: 1rem; }
+    .stats strong { display: block; font-family: var(--display); font-size: 30px; color: var(--gold-light); }
+    .stats span { display: block; margin-top: .3rem; font-size: 11px; color: rgba(255,255,255,.65); }
+    .filters { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.5rem; }
+    .filters button { border: 1px solid var(--line); border-radius: 999px; background: white; padding: .55rem 1rem; font-size: 12px; font-weight: 700; color: var(--ink-2); cursor: pointer; }
+    .filters button.active, .filters button:hover { background: var(--ink); border-color: var(--ink); color: white; }
+    .grid { display: grid; gap: 1.25rem; }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .card { overflow: hidden; border: 1px solid var(--line); border-radius: 22px; background: white; box-shadow: 0 12px 35px rgba(35,42,51,.05); transition: transform .25s ease, box-shadow .25s ease; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 22px 50px rgba(35,42,51,.12); }
+    .card-media { position: relative; height: 190px; overflow: hidden; background: #e9e3d8; }
+    .card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+    .card:hover .card-media img { transform: scale(1.06); }
+    .badge { position: absolute; left: 12px; top: 12px; border-radius: 999px; padding: .3rem .7rem; background: white; color: var(--forest); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+    .badge.sale { background: #a63f45; color: white; }
+    .logo-badge { position: absolute; left: 14px; bottom: 14px; width: 46px; height: 46px; border: 2px solid rgba(255,255,255,.75); border-radius: 14px; display: grid; place-items: center; color: white; font-size: 12px; font-weight: 800; }
+    .card-body { padding: 1.1rem; }
+    .card-meta { display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
+    .card-body h3 { margin: .55rem 0 0; font-family: var(--display); font-size: 20px; line-height: 1.25; }
+    .card-body p { min-height: 34px; margin: .5rem 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .price-row { display: flex; align-items: center; gap: .5rem; margin-top: .9rem; }
+    .price { font-size: 19px; font-weight: 800; }
+    .old { color: var(--muted); font-size: 12px; text-decoration: line-through; }
+    .card-actions { display: flex; gap: .5rem; margin-top: 1rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+    .card-actions .btn { flex: 1; padding: .65rem .8rem; font-size: 12px; }
+    .add-btn { width: 40px; border: 0; border-radius: 50%; background: var(--ink); color: white; font-size: 20px; cursor: pointer; }
+    .white-section { background: white; }
+    .dark-section { background: var(--ink); color: white; }
+    .dark-section .eyebrow::before { background: var(--gold); }
+    .event-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .event { overflow: hidden; border: 1px solid rgba(255,255,255,.1); border-radius: 22px; background: rgba(255,255,255,.05); }
+    .event img { width: 100%; height: 190px; object-fit: cover; }
+    .event div { padding: 1.2rem; }
+    .event span { color: var(--gold-light); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .16em; }
+    .event h3 { margin: .6rem 0; font-family: var(--display); font-size: 22px; }
+    .event p { margin: 0; color: rgba(255,255,255,.6); font-size: 12px; line-height: 1.6; }
+    .newsletter { display: grid; grid-template-columns: 1.1fr .9fr; gap: 2.5rem; align-items: center; padding: 3rem; border-radius: 28px; background: rgba(234,217,184,.45); }
+    .newsletter h2 { margin: .8rem 0 0; font-family: var(--display); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; }
+    .newsletter p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .newsletter form { display: flex; gap: .5rem; padding: .4rem; border: 1px solid var(--line); border-radius: 999px; background: white; }
+    .newsletter input { flex: 1; min-width: 0; border: 0; outline: none; padding: 0 1rem; font-size: 14px; }
+    #newsletterMessage { min-height: 18px; margin-top: .7rem; font-size: 12px; color: var(--forest); }
+    footer { background: var(--ink); color: white; padding: 3.5rem 0 1.5rem; }
+    .footer-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 2rem; border-bottom: 1px solid rgba(255,255,255,.1); padding-bottom: 2.5rem; }
+    .footer-grid h4 { margin: 0 0 1rem; color: var(--gold-light); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; }
+    .footer-grid p, .footer-grid a { display: block; margin: .5rem 0; color: rgba(255,255,255,.6); font-size: 13px; }
+    .footer-grid a:hover { color: white; }
+    .copyright { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-top: 1.5rem; color: rgba(255,255,255,.4); font-size: 11px; }
+    .toast { position: fixed; right: 20px; bottom: 20px; z-index: 50; max-width: calc(100vw - 40px); padding: .9rem 1.2rem; border-radius: 14px; background: var(--ink); color: white; box-shadow: 0 20px 50px rgba(0,0,0,.25); font-size: 13px; opacity: 0; transform: translateY(10px); pointer-events: none; transition: .25s ease; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .hidden { display: none !important; }
+    @media (max-width: 900px) {
+      nav { display: none; }
+      .hero-card { display: none; }
+      .grid-3, .grid-4, .event-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .newsletter { grid-template-columns: 1fr; padding: 2rem; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 620px) {
+      .topbar .container span:last-child { display: none; }
+      .hero { min-height: 580px; }
+      .hero .container { min-height: 580px; }
+      .grid-3, .grid-4, .event-grid { grid-template-columns: 1fr; }
+      .section { padding: 3.5rem 0; }
+      .section-head { display: block; }
+      .section-head .more { display: inline-block; margin-top: 1rem; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="container">
+      <span><i class="dot"></i>FLDA apresenta · MallFilipe — sempre aberto, 24/7</span>
+      <span>Entrega grátis em todas as encomendas</span>
+    </div>
+  </div>
+
+  <header class="main">
+    <div class="container">
+      <a class="brand" href="/" aria-label="MallFilipe, página inicial">
+        <span class="brand-mark">MF</span>
+        <span><span class="brand-name">MallFilipe</span><span class="brand-sub">by FLDA</span></span>
+      </a>
+      <nav aria-label="Navegação principal">
+        <a href="/">Início</a>
+        <a href="/lojas">Lojas</a>
+        <a href="/produtos">Produtos</a>
+        <a href="/ofertas">Ofertas</a>
+        <a href="/eventos">Eventos</a>
+        <a href="/sobre">Sobre</a>
+      </nav>
+      <a class="cart-link" href="/carrinho" aria-label="Carrinho">
+        🛍️<span class="cart-count" id="cartCount">0</span>
+      </a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <img src="https://images.pexels.com/photos/32212151/pexels-photo-32212151.jpeg?auto=compress&amp;cs=tinysrgb&amp;fit=crop&amp;w=1800&amp;h=1050" alt="Átrio moderno do MallFilipe" />
+    <div class="container">
+      <div class="hero-content">
+        <span class="pill"><i class="dot"></i> O centro comercial virtual da FLDA</span>
+        <h1>O shopping que <em>nunca fecha.</em></h1>
+        <p>Lojas selecionadas, marcas que inspiram e experiências memoráveis. Tudo no MallFilipe, aberto onde e quando quiser.</p>
+        <form class="search" id="searchForm">
+          <input id="searchInput" type="search" placeholder="Encontre uma marca, produto ou loja..." aria-label="Pesquisar no MallFilipe" />
+          <button class="btn btn-gold" type="submit">Explorar</button>
+        </form>
+        <div class="hero-actions">
+          <a class="btn btn-gold" href="/lojas">Explorar lojas →</a>
+          <a class="btn btn-outline" href="/ofertas">Ver ofertas</a>
+        </div>
+      </div>
+    </div>
+    <aside class="hero-card">
+      <small>MallFilipe live</small>
+      <strong>Aberto agora, 24/7</strong>
+      <p>10 lojas · 31 produtos · 3 pisos digitais</p>
+    </aside>
+  </section>
+
+  <section class="stats">
+    <div class="container" style="display:grid;grid-template-columns:inherit;gap:inherit">
+      <div><strong>10</strong><span>Lojas selecionadas</span></div>
+      <div><strong>31</strong><span>Produtos disponíveis</span></div>
+      <div><strong>3</strong><span>Pisos para descobrir</span></div>
+      <div><strong>24/7</strong><span>Sempre aberto</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="lojas">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Lojas em destaque</span>
+          <h2>Marcas que valem a visita</h2>
+          <p>Cada loja foi escolhida pela qualidade, identidade e pela forma como surpreende quem entra.</p>
+        </div>
+        <a class="more" href="/lojas">Ver diretório completo →</a>
+      </div>
+
+      <div class="filters" id="storeFilters" aria-label="Filtrar lojas">
+        <button type="button" class="active" data-filter="todas">Todas</button>
+        <button type="button" data-filter="moda">Moda</button>
+        <button type="button" data-filter="tecnologia">Tecnologia</button>
+        <button type="button" data-filter="beleza">Beleza</button>
+        <button type="button" data-filter="casa">Casa</button>
+        <button type="button" data-filter="gastronomia">Gastronomia</button>
+      </div>
+
+      <div class="grid grid-3" id="storeGrid">
+        <article class="card store" data-category="moda">
+          <div class="card-media">
+            <img src="https://images.pexels.com/photos/8743972/pexels-photo-8743972.jpeg?auto=compress&amp;cs=tinysrgb&amp;fit=crop&amp;w=900&amp;h=600" alt="Aurora Moda" />
+            <span class="badge">Moda</span><span class="logo-badge" style="background:#B96B66">AM</span>
+          </div>
+          <div class="card-body"><div class="card-meta"><span>Piso 1 · L101</span><span>★ 4.9</span></div><h3>Aurora Moda</h3><p>Peças contemporâneas para todos os dias.</p><div class="card-actions"><a class="btn btn-light" href="/lojas/aurora-moda">Visitar loja</a></div></div>
+        </article>
+        <article class="card store" data-category="tecnologia">
+          <div class="card-media">
+            <img src="https://images.pexels.com/photos/18311089/pexels-photo-18311089.jpeg?auto=compress&amp;cs=tinysrgb&amp;fit=crop&amp;w=900&amp;h=600" alt="Nexo Tech" />
+            <span class="badge">Tecnologia</span><span class="logo-badge" style="background:#34728E">NX</span>
+          </div>
+          <div class="card-body"><div class="card-meta"><span>Piso 1 · L112</span><span>★ 4.8</span></div><h3>Nexo Tech</h3><p>Tecnologia que simplifica o seu dia.</p><div class="card-actions"><a class="btn btn-light" href="/lojas/nexo-tech">Visitar loja</a></div></div>
+        </article>
+        <article class="card store" data-category="beleza">
+          <div class="card-media">
+            <img src="https://images.pexels.com/photos/24602077/pexels-photo-24602077.jpeg?auto=compress&amp;cs=tinysrgb&amp;fit=crop&amp;w=900&amp;h=600" alt="Bella Essência" />
+            <span class="badge">Beleza</span><span class="logo-badge" style="background:#A66B98">BE</span>
+          </div>
+          <div class="card-body"><div class="card-meta"><span>Piso 1 · L128</span><span>★ 4.9</span></div><h3>Bella Essência</h3><p>Beleza, fragrância e rituais de cuidado.</p><div class="card-actions"><a class="btn btn-light" href="/lojas/bella-essencia">Visitar loja</a></div></div>
+        </article>
+        <article class="card store" data-category="casa">
+          <div class="card-media">
+            <img src="https://images.pexels.com/photos/14781780/pexels-photo-14781780.jpeg?auto=compress&amp;cs=tinysrgb&amp;fit=crop&amp;w=900&amp;h=600" alt="Casa Areia" />
+            <span class="badge">Casa</span><span class="logo-badge" style="background:#B4844F">CA</span>
+          </div>
+          <div class="card-body"><div class="card-meta"><span>Piso 2 · L204</span><span>★ 4.7</span></div><h3>Casa Areia</h3><p>Objetos com textura para viver melhor.</p><div class="card-actions"><a class="btn btn-light" href="/lojas/casa-areia">Visitar loja</a></div></div>
+        </article>
+        <article class="card store" data-category="gastronomia">
+          <div class="card-media">
+            <img src="https://images.pexels.com/photos/3914060/pexels-photo-3914060.jpeg?auto=compress&amp;cs=tinysrgb&amp;fit=crop&amp;w=900&amp;h=600" alt="Grão Nobre Café" />
+            <span class="badge">Gastronomia</span><span class="logo-badge" style="background:#8B5B3B">GN</span>
+          </div>
+          <div class="card-body"><div class="card-meta"><span>Piso 0 · L018</span><span>★ 4.9</span></div><h3>Grão Nobre Café</h3><p>Da origem à chávena, sem atalhos.</p><div class="card-actions"><a class="btn btn-light" href="/lojas/grao-nobre-cafe">Visitar loja</a></div></div>
+        </article>
+        <article class="card store" data-category="gastronomia">
+          <div class="card-media">
+            <img src="https://images.pexels.com/photos/32265900/pexels-photo-32265900.jpeg?auto=compress&amp;cs=tinysrgb&amp;fit=crop&amp;w=900&amp;h=600" alt="Doce Ateliê" />
+            <span class="badge">Gastronomia</span><span class="logo-badge" style="background:#BF7380">DA</span>
+          </div>
+          <div class="card-body"><div class="card-meta"><span>Piso 0 · L024</span><span>★ 4.9</span></div><h3>Doce Ateliê</h3><p>Pastelaria fina feita todos os dias.</p><div class="card-actions"><a class="btn btn-light" href="/lojas/doce-atelie">Visitar loja</a></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section white-section" id="ofertas">
+    <div class="container">
+      <div class="section-head">
+        <div><span class="eyebrow">Seleção da semana</span><h2>Ofertas que merecem um clique</h2><p>Descontos especiais das lojas MallFilipe, reunidos num só lugar.</p></div>
+        <a class="more" href="/ofertas">Ver todas as ofertas →</a>
+      </div>
+      <div class="grid grid-4">
+        <article class="card">
+          <div class="card-media"><img src="https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&amp;cs=tinysrgb&amp;fit=crop&amp;w=800&amp;h=700" alt="Auscultadores Aura Pro" /><span class="badge sale">-25%</span></div>
+          <div class="card-body"><div class="card-meta"><span>Nexo Tech</span><span>★ 4.9</span></div><h3>Auscultadores Aura Pro</h3><p>ANC, 40 horas de autonomia e som equilibrado.</p><div class="price-row"><strong class="price">149,90 €</strong><span class="old">199,90 €</span></div><div class="card-actions"><button class="add-btn" type="button" data-name="Auscultadores Aura Pro" aria-label="Adicionar ao carrinho">+</button><a class="btn btn-light" href="/produtos/auscultadores-aura-pro">Ver produto</a></div></div>
+        </article>
+        <article class="card">
+          <div class="card-media"><img src="https://images.pexels.com/photos/35930230/pexels-photo-35930230.jpeg?auto=compress&amp;cs=tinysrgb&amp;fit=crop&amp;w=800&amp;h=700" alt="Eau de Parfum Íris Noite" /><span class="badge sale">-25%</span></div>
+          <div class="card-body"><div class="card-meta"><span>Bella Essência</span><span>★ 4.9</span></div><h3>Eau de Parfum Íris Noite</h3><p>Íris, âmbar e madeiras quentes.</p><div class="price-row"><strong class="price">74,90 €</strong><span class="old">99,90 €</span></div><div class="card-actions"><button class="add-btn" type="button" data-name="Eau de Parfum Íris Noite" aria-label="Adicionar ao carrinho">+</button><a class="btn btn-light" href="/produtos/eau-de-parfum-iris-noite">Ver produto</a></div></div>
+        </article>
+        <article class="card">
+          <div class="card-media"><img src="https://images.pexels.com/photos/19869759/pexels-photo-19869759.jpeg?auto=compress&amp;cs=tinysrgb&amp;fit=crop&amp;w=800&amp;h=700" alt="Sneakers Urban Azure" /><span class="badge sale">-31%</span></div>
+          <div class="card-body"><div class="card-meta"><span>Passo Urbano</span><span>★ 4.9</span></div><h3>Sneakers Urban Azure</h3><p>Sola amortecida e cabedal respirável.</p><div class="price-row"><strong class="price">89,90 €</strong><span class="old">129,90 €</span></div><div class="card-actions"><button class="add-btn" type="button" data-name="Sneakers Urban Azure" aria-label="Adicionar ao carrinho">+</button><a class="btn btn-light" href="/produtos/sneakers-urban-azure">Ver produto</a></div></div>
+        </article>
+        <article class="card">
+          <div class="card-media"><img src="https://images.pexels.com/photos/25547393/pexels-photo-25547393.jpeg?auto=compress&amp;cs=tinysrgb&amp;fit=crop&amp;w=800&amp;h=700" alt="Café Especial 500g" /><span class="badge sale">-24%</span></div>
+          <div class="card-body"><div class="card-meta"><span>Grão Nobre Café</span><span>★ 4.9</span></div><h3>Café Especial 500g</h3><p>Origem única com notas de chocolate e caramelo.</p><div class="price-row"><strong class="price">18,90 €</strong><span class="old">24,90 €</span></div><div class="card-actions"><button class="add-btn" type="button" data-name="Café Especial 500g" aria-label="Adicionar ao carrinho">+</button><a class="btn btn-light" href="/produtos/cafe-especial-500g">Ver produto</a></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark-section" id="eventos">
+    <div class="container">
+      <div class="section-head">
+        <div><span class="eyebrow light">Agenda MallFilipe</span><h2>Mais do que compras: experiências</h2><p style="color:rgba(255,255,255,.6)">Desfiles, provas, workshops e encontros que dão vida ao nosso centro comercial virtual.</p></div>
+        <a class="more" style="color:var(--gold-light)" href="/eventos">Ver agenda completa →</a>
+      </div>
+      <div class="event-grid">
+        <article class="event"><img src="https://images.pexels.com/photos/32212151/pexels-photo-32212151.jpeg?auto=compress&amp;cs=tinysrgb&amp;fit=crop&amp;w=800&amp;h=550" alt="Noite de Lançamentos" /><div><span>Moda &amp; Lifestyle</span><h3>Noite de Lançamentos</h3><p>Novas coleções, desfile e música ao vivo no Átrio Central.</p></div></article>
+        <article class="event"><img src="https://images.pexels.com/photos/33313216/pexels-photo-33313216.jpeg?auto=compress&amp;cs=tinysrgb&amp;fit=crop&amp;w=800&amp;h=550" alt="Feira de Sabores FLDA" /><div><span>Gastronomia</span><h3>Feira de Sabores FLDA</h3><p>Provas, demonstrações e edições limitadas dos nossos parceiros.</p></div></article>
+        <article class="event"><img src="https://images.pexels.com/photos/19840969/pexels-photo-19840969.jpeg?auto=compress&amp;cs=tinysrgb&amp;fit=crop&amp;w=800&amp;h=550" alt="Cinema sob as Estrelas" /><div><span>Cultura</span><h3>Cinema sob as Estrelas</h3><p>Uma sessão ao ar livre no terraço panorâmico do MallFilipe.</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="newsletter">
+        <div><span class="eyebrow">Clube MallFilipe</span><h2>Vantagens para quem descobre primeiro.</h2><p>Receba novidades, pré-lançamentos e convites para eventos exclusivos da FLDA.</p></div>
+        <div>
+          <form id="newsletterForm">
+            <input id="newsletterEmail" type="email" required placeholder="O seu email" aria-label="Email para newsletter" />
+            <button class="btn btn-dark" type="submit">Subscrever</button>
+          </form>
+          <div id="newsletterMessage" role="status" aria-live="polite"></div>
+          <p style="font-size:11px;margin-top:.8rem">Prefere a experiência completa? <a href="/" style="color:var(--forest);font-weight:800">Entre no MallFilipe →</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand"><span class="brand-mark" style="background:var(--gold);color:var(--ink)">MF</span><span><span class="brand-name">MallFilipe</span><span class="brand-sub">Uma empresa FLDA</span></span></div>
+          <p style="max-width:330px;line-height:1.7">Um centro comercial virtual onde as melhores lojas, experiências e descobertas vivem no mesmo lugar.</p>
+        </div>
+        <div><h4>Explorar</h4><a href="/lojas">Diretório de lojas</a><a href="/produtos">Todos os produtos</a><a href="/ofertas">Ofertas da semana</a><a href="/eventos">Agenda cultural</a></div>
+        <div><h4>MallFilipe</h4><a href="/sobre">A nossa história</a><a href="/carrinho">O meu carrinho</a><a href="/">Experiência completa</a><p>apoio@mallfilipe.pt</p></div>
+      </div>
+      <div class="copyright"><span>© <span id="year"></span> FLDA · MallFilipe. Todos os direitos reservados.</span><span>index.html · Centro comercial virtual</span></div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      var searchForm = document.getElementById("searchForm");
+      searchForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        var query = document.getElementById("searchInput").value.trim();
+        window.location.href = query ? "/produtos?q=" + encodeURIComponent(query) : "/produtos";
+      });
+
+      var filterButtons = document.querySelectorAll("#storeFilters button");
+      var storeCards = document.querySelectorAll("#storeGrid .store");
+      filterButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          var filter = button.getAttribute("data-filter");
+          filterButtons.forEach(function (item) { item.classList.remove("active"); });
+          button.classList.add("active");
+          storeCards.forEach(function (card) {
+            card.classList.toggle("hidden", filter !== "todas" && card.getAttribute("data-category") !== filter);
+          });
+        });
+      });
+
+      var count = 0;
+      var toast = document.getElementById("toast");
+      var toastTimer;
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("show");
+        window.clearTimeout(toastTimer);
+        toastTimer = window.setTimeout(function () { toast.classList.remove("show"); }, 2400);
+      }
+      document.querySelectorAll(".add-btn").forEach(function (button) {
+        button.addEventListener("click", function () {
+          count += 1;
+          document.getElementById("cartCount").textContent = count;
+          showToast("✓ " + button.getAttribute("data-name") + " — continue na experiência completa para finalizar.");
+        });
+      });
+
+      var newsletterForm = document.getElementById("newsletterForm");
+      newsletterForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        var message = document.getElementById("newsletterMessage");
+        var email = document.getElementById("newsletterEmail").value;
+        message.textContent = "A registar...";
+        try {
+          var response = await fetch("/api/newsletter", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: "", email: email })
+          });
+          var data = await response.json();
+          if (!response.ok) throw new Error(data.error || "Não foi possível subscrever.");
+          message.textContent = data.message || "Subscrição concluída!";
+          newsletterForm.reset();
+        } catch (error) {
+          message.textContent = error.message;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
